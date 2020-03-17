@@ -1,4 +1,5 @@
 class PlaylistsController < ApplicationController
+    before_action :logged_in?
 
     def new
         @playlist = Playlist.new
@@ -27,7 +28,7 @@ class PlaylistsController < ApplicationController
     end
 
     def index
-        @playlist = Playlist.all
+        @playlist = current_user.playlists
     end
 
     def destroy
