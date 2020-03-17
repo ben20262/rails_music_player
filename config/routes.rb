@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   resources :playlists
   resources :songs
 
+  root to: 'users#show'
+
   get '/users/:id/songs', to: 'users#songs', as: 'user_songs'
   
 end
