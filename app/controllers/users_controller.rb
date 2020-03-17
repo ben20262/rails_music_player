@@ -12,4 +12,8 @@ class UsersController < ApplicationController
 
     end
 
+    def songs
+
+    end
+
 end
