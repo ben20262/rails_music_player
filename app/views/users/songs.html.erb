@@ -1,0 +1,6 @@
+<h3>Your Saved Songs</h3>
+<ul>
+    <% @user.songs.each do |song| %>
+        <li><%= link_to song.title, song_path(song) %></li>
+    <% end %>
+</ul>
