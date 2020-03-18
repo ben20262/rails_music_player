@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-
+    
     def new
         @user = User.new
     end
@@ -19,6 +19,6 @@ class SessionsController < ApplicationController
         if logged_in?
             session.delete(:user_id)
         end
-        redirect_to new_session_path
+        redirect_to login_path
     end
 end

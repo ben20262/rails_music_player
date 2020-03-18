@@ -1,8 +1,10 @@
 class SongsController < ApplicationController
-    before_action :logged_in?
+    before_action :logged_out?
 
     def new
         @song = Song.new
+        @song.artist = Artist.new
+        @song.genre = Genre.new
     end
 
     def create
@@ -29,6 +31,11 @@ class SongsController < ApplicationController
         end
     end
 
+    def add_song_playlist
+        @song = Song.find(params[:id])
+        @user = current_user
+    end
+
     def show
         @song = Song.find(params[:id])
     end
@@ -38,12 +45,12 @@ class SongsController < ApplicationController
     end
 
     def destroy
-        Song.delete(params[:id])
+        Song.find(params[:id]).destroy
         redirect_to songs_path
     end
 
     private
     def song_params
-        params.require(:song).permit(:title, :artist_id, :genre_id)
+        params.require(:song).permit(:title, :artist_id, :genre_id, artist_attributes: [:name], genre_attributes: [:name])
     end
 end

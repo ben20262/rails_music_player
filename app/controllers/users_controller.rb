@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :logged_in?, only: [:show, :songs]
+    before_action :logged_out?, only: [:show, :songs]
 
     def new
         @user = User.new
@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 
         if @user.save
             session[:user_id] = @user.id
-            redirect_to user_page(@user)
+            redirect_to user_path(@user)
         else
             render :new
         end
@@ -22,6 +22,14 @@ class UsersController < ApplicationController
 
     def songs
         @user = current_user
+    end
+
+    def add_song
+        @song = Song.find(params[:id])
+        if !current_user.songs.include?(@song)
+            current_user.songs << @song
+        end
+        redirect_to user_songs_path(current_user)
     end
 
     private

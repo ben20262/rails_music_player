@@ -1,26 +1,27 @@
 class PlaylistsController < ApplicationController
-    before_action :logged_in?
+    before_action :logged_out?
 
     def new
         @playlist = Playlist.new
     end
 
     def create
-        @playlist = Playlist.new(playlist_params)
-    end
+        @playlist = Playlist.new(name: params[:playlist][:name], user_id: current_user.id)
 
-    def edit
-        @playlist = Playlist.find(params[:id])
+        if @playlist.save
+            redirect_to playlist_path(@playlist)
+        else
+            render :new
+        end
     end
 
     def update
         @playlist = Playlist.find(params[:id])
-
-        if @playlist.update(playlist_params)
-            redirect_to playlist_path(@playlist)
-        else
-            render :edit
+        @song = Song.find(params[:song_id])
+        if !@playlist.songs.include?(@song)
+            @playlist.songs << @song
         end
+        redirect_to playlist_path(@playlist)
     end
 
     def show
@@ -28,18 +29,12 @@ class PlaylistsController < ApplicationController
     end
 
     def index
-        @playlist = current_user.playlists
+        @user = current_user
     end
 
     def destroy
-        Playlist.delete(params[:id])
+        Playlist.find(params[:id]).destroy
         redirect_to playlists_path
-    end
-
-    private
-
-    def playlist_params
-        params.require(:playlist).permit(:name)
     end
 
 end
