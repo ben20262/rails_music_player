@@ -1,0 +1,6 @@
+<h3>Select your Playlist to Add Song</h3>
+<ul>
+    <% @user.playlists.each do |playlist| %>
+        <li><%= link_to playlist.name, update_playlist_path(playlist, @song.id), method: 'patch' %></li>
+    <% end %>
+</ul>

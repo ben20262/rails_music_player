@@ -1,0 +1,23 @@
+<%= form_for song do |f| %>
+    <%= f.label "Title: " %>
+    <%= f.text_field :title %>
+    <br><br>
+
+    <%= f.label "Artist: " %>
+    <%= f.collection_select :artist_id, Artist.all, :id, :name, include_blank: true %><br>
+    <%= f.label "Create New Artist: " %>
+    <%= f.fields_for :artist do |artist_fields| %>
+        <%= artist_fields.text_field :name %>
+    <% end %>
+    <br><br>
+
+    <%= f.label "Genre: " %>
+    <%= f.collection_select :genre_id, Genre.all, :id, :name, include_blank: true %><br>
+    <%= f.label "Create New Genre: " %>
+    <%= f.fields_for :genre do |genre_fields| %>
+        <%= genre_fields.text_field :name %>
+    <% end %>
+    <br><br>
+    
+    <%= f.submit %>
+<% end %>
