@@ -8,12 +8,23 @@ class SongsController < ApplicationController
     end
 
     def create
-        @song = Song.new(song_params)
-
-        if @song.save
-            redirect_to song_path(@song)
+        if params[:user_id]
+            @user = User.find(params[:user_id])
+            @song = Song.find(params[:id])
+            @user.songs << @song
+            redirect_to user_songs_path(@user)
+        elsif params[:playlist_id]
+            @playlist = Playlist.find(params[:playlist_id])
+            @song = Song.find(params[:id])
+            @playlist.songs << @song
+            redirect_to playlist_songs_path(@playlist)
         else
-            render :new
+            @song = Song.new(song_params)
+            if @song.save
+                redirect_to song_path(@song)
+            else
+                render :new
+            end
         end
     end
 
@@ -37,11 +48,29 @@ class SongsController < ApplicationController
     end
 
     def show
-        @song = Song.find(params[:id])
+        if params[:user_id]
+            @user = User.find(params[:user_id])
+            @song = Song.find(params[:id])
+            redirect_to song_path(@song) if !@user.songs.include?(@song)
+        elsif params[:playlist_id]
+            @playlist = Playlist.find(params[:playlist_id])
+            @song = Song.find(params[:id])
+            redirect_to song_path(@song) if !@playlist.songs.include?(@song)
+        else
+            @song = Song.find(params[:id])
+        end
     end
 
     def index
-        @songs = Song.all
+        if params[:user_id]
+            @user = User.find(params[:user_id])
+            @songs = @user.songs
+        elsif params[:playlist_id]
+            @playlist = Playlist.find(params[:playlist_id])
+            @songs = @playlist.songs
+        else
+            @songs = Song.all
+        end
     end
 
     def destroy

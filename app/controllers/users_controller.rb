@@ -2,6 +2,9 @@ class UsersController < ApplicationController
     before_action :logged_out?, only: [:show, :songs]
 
     def new
+        if logged_in?
+            redirect_to root_path
+        end
         @user = User.new
     end
 
@@ -17,10 +20,6 @@ class UsersController < ApplicationController
     end
 
     def show
-        @user = current_user
-    end
-
-    def songs
         @user = current_user
     end
 

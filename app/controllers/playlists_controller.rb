@@ -9,7 +9,7 @@ class PlaylistsController < ApplicationController
         @playlist = Playlist.new(name: params[:playlist][:name], user_id: current_user.id)
 
         if @playlist.save
-            redirect_to playlist_path(@playlist)
+            redirect_to playlist_songs_path(@playlist)
         else
             render :new
         end
@@ -21,11 +21,7 @@ class PlaylistsController < ApplicationController
         if !@playlist.songs.include?(@song)
             @playlist.songs << @song
         end
-        redirect_to playlist_path(@playlist)
-    end
-
-    def show
-        @playlist = Playlist.find(params[:id])
+        redirect_to playlist_songs_path(@playlist)
     end
 
     def index
