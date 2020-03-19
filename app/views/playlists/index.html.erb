@@ -1,9 +1,7 @@
 <h3>Your Playlists</h3>
 
 <ul>
-    <% @user.playlists.each do |playlist|%>
-        <li><%= link_to playlist.name, playlist_path(playlist) %></li>
+    <% @user.playlists.each do |playlist| %>
+        <li><%= link_to playlist.name, playlist_songs_path(playlist) %></li>
     <% end %>
 </ul>
-
-<%= link_to "Create New Playlist", new_playlist_path %>
