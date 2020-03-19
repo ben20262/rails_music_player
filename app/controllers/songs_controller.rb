@@ -3,8 +3,12 @@ class SongsController < ApplicationController
 
     def new
         @song = Song.new
-        @song.artist = Artist.new
         @song.genre = Genre.new
+        if params[:artist_id]
+            @artist = Artist.find(params[:artist_id])
+        else
+            @song.artist = Artist.new
+        end
     end
 
     def create
