@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root to: 'users#show'
   resources :users, only: [:new, :create]
   resources :users, only: [:show] do
-    resources :songs, only: [:index, :show, :create]
+    resources :songs, only: [:index, :show, :update]
   end
 
   resources :artists, only: [:new, :create, :update, :show, :index, :destroy]
