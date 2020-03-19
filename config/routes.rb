@@ -7,15 +7,17 @@ Rails.application.routes.draw do
     resources :songs, only: [:index, :show, :update]
   end
 
-  resources :artists, only: [:new, :create, :update, :show, :index, :destroy]
+  resources :artists, only: [:new, :create, :update, :index, :destroy]
   resources :artists, only: [:show] do
     resources :songs, only: [:new, :index, :show]
   end
 
-  resources :genres, only: [:new, :create, :show, :index, :destroy]
+  get '/songs/genres', to: 'songs#song_genre', as: 'song_genre'
   resources :songs, only: [:new, :create, :show, :index, :destroy]
 
   resources :playlists, only: [:new, :create, :index, :update, :destroy]
+  get '/songs/:id/playlist', to: 'songs#add_song_playlist', as: 'add_playlist_song'
+  patch '/playlists/:id/songs/:song_id', to: 'playlists#update', as: 'update_playlist'
   resources :playlists, only: [:show] do
     resources :songs, only: [:index, :show]
   end
@@ -25,8 +27,5 @@ Rails.application.routes.draw do
   post '/logout', to: 'sessions#destroy', as: 'logout'
   get '/signup', to: 'users#new', as: 'signup'
   get '/auth/facebook/callback' => 'sessions#face_create'
-
-  get '/songs/:id/playlist', to: 'songs#add_song_playlist', as: 'add_playlist_song'
-  patch '/playlists/:id/songs/:song_id', to: 'playlists#update', as: 'update_playlist'
 
 end

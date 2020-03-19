@@ -2,6 +2,10 @@
     <h3>Your Songs</h3>
 <% elsif @playlist %>
     <h3><%= @playlist.name %> Songs</h3>
+<% elsif @genre %>
+    <h3><%= @genre.name %> Songs</h3>
+<% elsif @artist %>
+    <h3><%= @artist.name %> Songs</h3>
 <% else %>
     <h3>All Songs</h3>
 <% end %>
@@ -10,8 +14,14 @@
     <% @songs.each do |song| %>
         <li><%= link_to song.title, song_path(song) %></li>
     <% end %>
-</ul>
+</ul><br>
 
 <% if !@user && !@playlist %>
-    <%= link_to "Add Song", new_song_path %>
+    <%= link_to "Add Song", new_song_path %><br>
+<% end %>
+
+<h4>Search by Genre</h4>
+<%= form_tag({controller: 'songs', action: 'song_genre'}, method: 'get') do %>
+    <%= collection_select :song, :genre_id, Genre.all, :id, :name %><br>
+    <%= submit_tag "Search" %>
 <% end %>

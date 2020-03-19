@@ -2,10 +2,8 @@
 <p>Artist: <%= @song.artist.name %></p>
 <p>Genre: <%= @song.genre.name %></p>
 <br>
-<% if !@user %>
+<% if !@user.songs.include?(@song) %>
     <%= link_to "Add to Songs", user_song_path(current_user, @song), method: :patch %>
 <% end %>
 <br>
-<% if !@playlist %>
-    <%= link_to "Add Song to Playlist", add_playlist_song_path(@song) %>
-<% end %>
+<%= link_to "Add Song to Playlist", add_playlist_song_path(@song) %>

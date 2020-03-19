@@ -62,6 +62,12 @@ class SongsController < ApplicationController
         @user = current_user
     end
 
+    def song_genre
+        @songs = Song.where(genre_id: params[:song][:genre_id])
+        @genre = Genre.find(params[:song][:genre_id])
+        render :index
+    end
+
     def show
         if params[:user_id]
             @user = User.find(params[:user_id])
@@ -72,6 +78,7 @@ class SongsController < ApplicationController
             @song = Song.find(params[:id])
             redirect_to song_path(@song) if !@playlist.songs.include?(@song)
         else
+            @user = current_user
             @song = Song.find(params[:id])
         end
     end
@@ -83,6 +90,9 @@ class SongsController < ApplicationController
         elsif params[:playlist_id]
             @playlist = Playlist.find(params[:playlist_id])
             @songs = @playlist.songs
+        elsif params[:artist_id]
+            @artist = Artist.find(params[:artist_id])
+            @songs = @artist.songs
         else
             @songs = Song.all
         end
