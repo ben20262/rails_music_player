@@ -1,8 +1,17 @@
-<h3>All Songs</h3>
+<% if @user %>
+    <h3>Your Songs</h3>
+<% elsif @playlist %>
+    <h3><%= @playlist.name %> Songs</h3>
+<% else %>
+    <h3>All Songs</h3>
+<% end %>
+
 <ul>
     <% @songs.each do |song| %>
         <li><%= link_to song.title, song_path(song) %></li>
     <% end %>
 </ul>
 
-<%= link_to "Add Song", new_song_path %>
+<% if !@user && !@playlist %>
+    <%= link_to "Add Song", new_song_path %>
+<% end %>
