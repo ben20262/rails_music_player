@@ -33,12 +33,23 @@ class SongsController < ApplicationController
     end
 
     def update
-        @song = Song.find(params[:id])
-
-        if @song.update(song_params)
-            redirect_to song_path(@song)
+        if params[:user_id]
+            @user = User.find(params[:user_id])
+            @song = Song.find(params[:id])
+            @user.songs << @song if !@user.songs.include?(@song)
+            redirect_to user_songs_path(@user)
+        elsif params[:playlist_id]
+            @playlist = Playlist.find(params[:playlist_id])
+            @song = Song.find(params[:id])
+            @playlist.songs << @song if !@playlist.songs.include?(@song)
+            redirect_to playlist_songs_path(@playlist)
         else
-            render :edit
+            @song = Song.find(params[:id])
+            if @song.update(song_params)
+                redirect_to song_path(@song)
+            else
+                render :edit
+            end
         end
     end
 
