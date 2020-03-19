@@ -1,6 +1,7 @@
 <% if !logged_in? %>
     <%= link_to "Sign In", login_path %>
     <%= link_to "Sign Up", signup_path %>
+    <%= link_to('Log in with Facebook!', '/auth/facebook') %>
 <% else %>
     <%= link_to "Log Out", logout_path, method: :post %>
     <%= link_to "Back", :back %> 
