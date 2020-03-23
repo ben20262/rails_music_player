@@ -1,3 +1,19 @@
+<h3>Create Song</h3>
+
+<% if @song.errors.any? %>
+    <div id="error_explaination">
+    <h2>
+        <%= pluralize(@song.errors.count, "error") %>
+        prohibited this form from being saved:
+    </h2>
+
+    <ul>
+        <% @song.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+        <% end %>
+    </ul>
+<% end %>
+
 <%= form_for song do |f| %>
     <%= f.label "Title: " %>
     <%= f.text_field :title %>

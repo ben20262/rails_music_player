@@ -1,3 +1,19 @@
+<h3>Sign Up</h3>
+
+<% if @user.errors.any? %>
+    <div id="error_explaination">
+    <h2>
+        <%= pluralize(@user.errors.count, "error") %>
+        prohibited this form from being saved:
+    </h2>
+
+    <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+        <% end %>
+    </ul>
+<% end %>
+
 <%= form_for @user do |f| %>
     <%= f.label "Name: " %>
     <%= f.text_field :name %><br>

@@ -1,5 +1,19 @@
 <h3>Create your Playlist</h3>
 
+<% if @playlist.errors.any? %>
+    <div id="error_explaination">
+    <h2>
+        <%= pluralize(@playlist.errors.count, "error") %>
+        prohibited this form from being saved:
+    </h2>
+
+    <ul>
+        <% @playlist.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+        <% end %>
+    </ul>
+<% end %>
+
 <%= form_for @playlist do |f| %>
     <%= f.label "Name: " %>
     <%= f.text_field :name %>

@@ -10,10 +10,12 @@ class SessionsController < ApplicationController
     def create
         @user = User.find_by(name: params[:user][:name])
 
-        if @user.authenticate(params[:user][:password])
+        if !params[:user][:password].empty? && @user.authenticate(params[:user][:password])
             session[:user_id] = @user.id
             redirect_to root_path
         else
+            @user = User.new(name: nil, password: nil) if @user == nil
+            @user.valid?
             render :new
         end
     end
